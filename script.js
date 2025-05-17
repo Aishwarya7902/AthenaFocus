@@ -1,7 +1,7 @@
 // --- configuration for each mode (in seconds) ---
 const MODES = {
-  pomodoro: 25 * 60,
-  short:   5 * 60,
+  pomodoro:  25 * 60,
+  short:    5*60,
   long:   15 * 60
 };
 
@@ -48,6 +48,16 @@ modeButtons.forEach(btn => {
 });
 
 // start / pause handler
+
+const audio = new Audio('notification.mp3');
+
+function playAudioForDuration(duration) {
+  audio.play();
+  setTimeout(() => {
+    audio.pause();
+    audio.currentTime = 0;
+  }, duration);
+}
 startBtn.addEventListener('click', () => {
   if (!isRunning) {
     // start countdown
@@ -60,6 +70,7 @@ startBtn.addEventListener('click', () => {
         isRunning = false;
         startBtn.textContent = 'start';
         // you could play a sound or auto-switch here
+        playAudioForDuration(7000);
       }
     }, 1000);
     startBtn.textContent = 'pause';
@@ -69,6 +80,7 @@ startBtn.addEventListener('click', () => {
     clearInterval(timerInterval);
     startBtn.textContent = 'start';
     isRunning = false;
+   
   }
 });
 
