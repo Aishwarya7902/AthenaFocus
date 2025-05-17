@@ -91,12 +91,14 @@ body,html{
 #buttons button{
     padding: 1vw 3vw;
     background-color: transparent; /*make it transparent*/
-    color: #000; /*make it white*/
+    color: #fff; /*make it white*/
     border-radius: 50px;
     font-size: 1.6vw;
     margin-right: 1.5vw;
     border: 1px solid #fff;
     cursor: pointer;
+    transition: all ease 0.5s;
+    
 
 }
 
@@ -104,6 +106,7 @@ body,html{
     
     background-color: white; 
     color: #000; 
+    box-shadow: 2px 2px #fff;
 }
 
 #timer{
