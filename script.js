@@ -1,3 +1,9 @@
+// background music logic
+
+const backgroundMusic = new Audio('background.mp3');
+backgroundMusic.loop = true; 
+backgroundMusic.volume = 0.3; // adjust volume
+
 // --- configuration for each mode (in seconds) ---
 const MODES = {
   pomodoro:  25 * 60,
@@ -69,17 +75,21 @@ startBtn.addEventListener('click', () => {
         clearInterval(timerInterval);
         isRunning = false;
         startBtn.textContent = 'start';
+        backgroundMusic.pause();  // pause music when done
         // you could play a sound or auto-switch here
         playAudioForDuration(7000);
       }
     }, 1000);
     startBtn.textContent = 'pause';
     isRunning = true;
+    backgroundMusic.play(); // 🎵 Start music
+
   } else {
     // pause
     clearInterval(timerInterval);
     startBtn.textContent = 'start';
     isRunning = false;
+    backgroundMusic.pause();
    
   }
 });
@@ -91,6 +101,8 @@ resetBtn.addEventListener('click', () => {
   remainingSec = MODES[currentMode];
   updateDisplay();
   startBtn.textContent = 'start';
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
 });
 
 // initialize display
