@@ -1,15 +1,17 @@
 // background music logic
 
 const backgroundMusic = new Audio('background.mp3');
-backgroundMusic.loop = true; 
-backgroundMusic.volume = 0.3; // adjust volume
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.2; // adjust volume
 
 // --- configuration for each mode (in seconds) ---
 const MODES = {
-  pomodoro:  25 * 60,
-  short:    5*60,
-  long:   15 * 60
+  pomodoro: 25 * 60,
+  short: 5 * 60,
+  long: 15 * 60
 };
+
+
 
 let currentMode = 'pomodoro';
 let remainingSec = MODES[currentMode];
@@ -17,15 +19,19 @@ let timerInterval = null;
 let isRunning = false;
 
 // grab DOM
-const modeButtons    = document.querySelectorAll('#buttons button');
-const displayEl      = document.getElementById('time-display');
-const startBtn       = document.getElementById('start-btn');
-const resetBtn       = document.getElementById('reset-btn');
+const modeButtons = document.querySelectorAll('#buttons button');
+const displayEl = document.getElementById('time-display');
+const startBtn = document.getElementById('start-btn');
+const resetBtn = document.getElementById('reset-btn');
+const volumeBtn = document.getElementById('volume-off');
+
+// set initial volume icon (playing by default)
+volumeBtn.classList.add('ri-volume-up-fill');
 
 // format seconds → "MM:SS"
 function formatTime(sec) {
-  const m = Math.floor(sec/60).toString().padStart(2,'0');
-  const s = (sec % 60).toString().padStart(2,'0');
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
   return `${m}:${s}`;
 }
 
@@ -43,7 +49,7 @@ modeButtons.forEach(btn => {
     startBtn.textContent = 'start';
 
     // set active button
-    modeButtons.forEach(b=>b.classList.remove('active'));
+    modeButtons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
     // switch mode
@@ -90,7 +96,7 @@ startBtn.addEventListener('click', () => {
     startBtn.textContent = 'start';
     isRunning = false;
     backgroundMusic.pause();
-   
+
   }
 });
 
@@ -103,6 +109,17 @@ resetBtn.addEventListener('click', () => {
   startBtn.textContent = 'start';
   backgroundMusic.pause();
   backgroundMusic.currentTime = 0;
+});
+
+// volume toggle handler
+volumeBtn.addEventListener('click', () => {
+  if (backgroundMusic.paused) {
+    backgroundMusic.play();
+    volumeBtn.classList.replace('ri-volume-mute-fill', 'ri-volume-up-fill');
+  } else {
+    backgroundMusic.pause();
+    volumeBtn.classList.replace('ri-volume-up-fill', 'ri-volume-mute-fill');
+  }
 });
 
 // initialize display
